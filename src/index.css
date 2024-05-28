@@ -1,3 +1,336 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* brand color is blueviolet-600: #5C6CD6 */
+/* defined in Tailwind.config.js */
+
+/* Breakpoints */
+/*  mobile: sm 640px */
+/*  tablet: md 768px, lg 1024px */
+/*  desktop: xl 1280px, 2xl 1536px */
+
+/* Z-index map */
+/* z-10: */
+/* z-20: */
+/* z-30: */
+/* z-40: */
+/* z-50: */
+
+/* Modal */
+/* Aside menu */
+/* Mobile menu */
+/* Calendar header */
+/* Tooltip */
+/* Menu tooltip */
+
+@layer base {
+	html {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 400;
+	}
+}
+
+@layer components {
+	.bb-header {
+		@apply text-2xl;
+	}
+
+	.bb-header-h2 {
+		@apply text-xl;
+	}
+
+	.bb-btn {
+		@apply inline-flex items-center justify-center;
+		@apply rounded-full border-0 h-9 px-4;
+		@apply text-sm leading-4;
+		@apply disabled:cursor-not-allowed disabled:opacity-60;
+		@apply focus:outline-none focus:ring-0 focus:ring-offset-0;
+		@apply transition duration-200 ease-in;
+	}
+
+	.bb-btn.bb-btn-square {
+		@apply px-2;
+	}
+
+	.bb-btn-primary {
+		@apply bb-btn;
+		@apply bg-blueviolet-600 text-white;
+	}
+
+	.bb-btn-secondary {
+		@apply bb-btn;
+		@apply bg-blueviolet-100 text-blueviolet-800;
+		@apply hover:bg-blueviolet-200 hover:text-blueviolet-900;
+		@apply dark:text-blueviolet-500 dark:bg-transparent dark:border dark:border-blueviolet-500;
+		@apply dark:hover:text-blueviolet-100 dark:hover:border-white;
+	}
+
+	.bb-btn-light {
+		@apply bb-btn;
+		@apply bg-gray-100 text-gray-800;
+		@apply dark:bg-slate-800 dark:text-slate-100;
+		@apply hover:bg-gray-200 hover:text-gray-900;
+		@apply hover:dark:bg-slate-700 hover:dark:text-slate-50;
+	}
+
+	.bb-btn-purple {
+		@apply bb-btn;
+		@apply bg-purple-100 text-purple-800;
+		@apply hover:bg-purple-200 hover:text-purple-900;
+	}
+
+	.bb-btn-white {
+		@apply bb-btn;
+		@apply bg-white border border-gray-300 text-gray-600;
+		@apply hover:bg-gray-100 hover:border-gray-100 hover:text-gray-800;
+		@apply dark:bg-white/5 dark:border-white/10 dark:text-slate-50;
+	}
+
+	.bb-btn-link {
+		@apply bb-btn;
+		@apply bg-transparent text-blueviolet-600;
+		@apply hover:bg-transparent hover:text-blueviolet-800;
+		@apply dark:text-blueviolet-500 dark:hover:text-blueviolet-100;
+	}
+
+	.bb-checkbox {
+		@apply h-4 w-4 border-gray-300 rounded cursor-pointer;
+		@apply text-blueviolet-600 focus:ring-transparent;
+		@apply focus:outline-none focus:ring-blueviolet-600 focus:border-blueviolet-600;
+		@apply dark:bg-transparent dark:border-slate-400;
+	}
+
+	.bb-checkbox-disabled {
+		@apply h-4 w-4 border-gray-300 rounded bg-gray-200;
+		@apply text-gray-300 focus:ring-gray-200;
+	}
+
+	.bb-radio {
+		@apply h-4 w-4 text-blueviolet-600 border-gray-300;
+		@apply focus:ring-transparent focus:shadow-none focus:outline-0 focus:outline-transparent focus:border-transparent;
+		@apply dark:bg-slate-800 dark:border-slate-400;
+	}
+
+	.bb-badge {
+		@apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100;
+	}
+	.bb-badge:not([class*='bg-']) {
+		@apply dark:bg-slate-800 dark:text-slate-100;
+	}
+
+	.bb-label {
+		@apply block text-sm text-gray-700 dark:text-slate-200;
+	}
+
+	.bb-input-base {
+		@apply block w-full px-2 lg:px-3 h-9;
+		@apply text-sm leading-4 rounded-full;
+		@apply appearance-none;
+		@apply focus:outline-none focus:ring-blueviolet-600 focus:border-blueviolet-600;
+		@apply dark:bg-white/5 dark:border-white/10 dark:text-slate-50 dark:placeholder-gray-200;
+	}
+
+	.bb-input {
+		@apply bb-input-base;
+		@apply border border-gray-300 text-gray-600 placeholder-gray-400;
+		@apply rounded-full;
+	}
+
+	.bb-textarea {
+		@apply bb-input-base;
+		@apply rounded-xl border border-gray-300 text-gray-600 placeholder-gray-400 h-auto;
+	}
+
+	.bb-input.bb-input-icon-left {
+		@apply pl-10;
+	}
+
+	.bb-input.bb-input-icon-right {
+		@apply pl-10;
+	}
+
+	.bb-input--gray {
+		@apply bb-input-base;
+		@apply border-gray-100 bg-gray-100 text-gray-700 placeholder-gray-500;
+	}
+
+	.bb-select {
+		@apply block w-full pl-3 pr-9 h-9;
+		@apply text-sm border-gray-300 text-gray-600 rounded-full;
+		@apply focus:outline-none focus:ring-blueviolet-500 focus:border-blueviolet-500;
+		@apply dark:bg-white/5 dark:border-white/10 dark:text-slate-50 dark:placeholder-gray-200;
+	}
+
+	.bb-slide-down {
+		@apply max-h-0 overflow-hidden transition-height duration-300 ease-in;
+	}
+
+	.bb-badge-filter {
+		@apply bb-btn;
+		@apply bg-gray-100 text-gray-700;
+		@apply dark:bg-white/5 dark:text-slate-50;
+	}
+
+	.bb-badge-filter > span {
+		@apply text-gray-400 mx-1.5;
+	}
+
+	.bb-color-picker {
+		@apply cursor-pointer hover:scale-110 transition-transform rounded-full w-9 h-9;
+		@apply inline-flex items-center justify-center text-sm;
+	}
+
+	.bb-tooltip {
+		@apply absolute px-3 py-2;
+		@apply rounded dark:bg-slate-800 shadow;
+		@apply hidden lg:inline-block;
+		@apply invisible opacity-0;
+		@apply transition-all duration-200 ease-in;
+	}
+
+	.peer\/tooltip:hover + * .bb-tooltip {
+		@apply visible opacity-100;
+	}
+
+	/* Utils */
+	.transparent-selection ::selection {
+		background: rgba(0, 0, 0, 0);
+	}
+
+	/* region Scroll */
+	.scrollbar {
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.scrollbar::-webkit-scrollbar {
+		width: 9px;
+		height: 9px;
+	}
+
+	.scrollbar--thin.scrollbar::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	.scrollbar::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		background-color: #e4e8f5;
+		border-radius: 10px;
+		border: 2px solid transparent;
+	}
+
+	.dark .scrollbar::-webkit-scrollbar-thumb {
+		background-color: #334454;
+	}
+
+	.scrollbar--thin.scrollbar::-webkit-scrollbar-thumb {
+		border: 1px solid transparent;
+	}
+
+	.scrollbar--dark.scrollbar::-webkit-scrollbar-thumb {
+		background-color: #444889;
+	}
+
+	.scrollbar--transparent.scrollbar::-webkit-scrollbar {
+		width: 0.1em;
+		background-color: transparent;
+	}
+
+	.scrollbar--transparent.scrollbar::-webkit-scrollbar-thumb {
+		background-color: transparent;
+	}
+	/* endregion Scroll */
+
+	.markdown {
+		@apply text-sm dark:bg-gray-900;
+	}
+	.markdown > * + * {
+		margin-block-start: 1rem;
+	}
+	.markdown h1 {
+		@apply text-2xl text-gray-900;
+		text-wrap: balance;
+	}
+	.markdown h2 {
+		@apply text-xl text-gray-900;
+		text-wrap: balance;
+	}
+	.markdown h3 {
+		@apply text-lg font-medium text-gray-900;
+		text-wrap: balance;
+	}
+	.markdown h4 {
+		@apply text-base font-medium text-gray-900;
+		text-wrap: balance;
+	}
+	.markdown p {
+		text-wrap: balance;
+	}
+	.markdown a {
+		@apply underline hover:no-underline underline-offset-2 text-blueviolet-600;
+		@apply decoration-blueviolet-300 dark:decoration-slate-600;
+	}
+	.markdown blockquote {
+		@apply inline-block py-3 px-4 rounded-lg;
+	}
+	.markdown .list-disc li {
+		list-style: none;
+		position: relative;
+		padding-left: 1rem;
+	}
+	.markdown .list-disc li::before {
+		content: '';
+		position: absolute;
+		top: 7px;
+		left: 0;
+		display: inline-block;
+		height: 0.325rem;
+		width: 0.325rem;
+		border-radius: 50%;
+		background-color: #5c6cd6; /* Change color as needed */
+	}
+
+	.markdown table {
+		@apply min-w-full divide-y divide-gray-200 dark:divide-slate-800;
+	}
+	.markdown tbody {
+		@apply divide-y divide-gray-200 dark:divide-slate-800;
+	}
+	.markdown th {
+		@apply px-3 py-3.5 text-left text-sm font-medium first:sm:pl-0 last:sm:pr-0;
+	}
+	.markdown td {
+		@apply px-3 py-4 text-sm first:sm:pl-0 last:sm:pr-0;
+	}
+
+	input.datePicker::-webkit-calendar-picker-indicator {
+		/* Add your custom styles for the calendar icon */
+		cursor: pointer;
+		filter: invert(50%);
+	}
+
+	.onError {
+		@apply bg-red-100;
+	}
+
+	.onSuccess {
+		@apply bg-green-100;
+	}
+
+	/* litepicker custom classes*/
+	:root {
+		--litepicker-is-start-color-bg: rgb(92 108 214);
+		--litepicker-is-end-color-bg: rgb(92 108 214);
+		--litepicker-is-in-range-color: rgb(228 232 245);
+	}
+}
+
+@layer utilities {
+	.min-h-svh {
+		min-height: 100svh;
+	}
+}

@@ -12,14 +12,15 @@ import { customElement, property, state } from 'lit/decorators.js'
 
   render () {
     return html`
+    <!-- si l'utilisateur clique, l'état change et on on quitte l'état hidden (par exemple) -->
     <div class="mb-1 order-1 relative" x-data="{ openAddFilter: false }">
 
-        <button type="button" class="bb-btn-secondary">
+        <button type="button" class="bb-btn-secondary" @click>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 mr-1.5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg> Add filter
         </button>
         <div
             
-            class="absolute bg-white focus:outline-none left-0 md:h-96 md:w-[32rem] mt-1 origin-top-left ring-1 ring-black ring-opacity-5 rounded-md shadow w-80 z-20"
+            class="absolute ${this.showMenu?'':"hidden"} bg-white focus:outline-none left-0 md:h-96 md:w-[32rem] mt-1 origin-top-left ring-1 ring-black ring-opacity-5 rounded-md shadow w-80 z-20"
             x-transition:enter="transition ease-out origin-top-left duration-200"
             x-transition:enter-start="opacity-0 transform scale-90"
             x-transition:enter-end="opacity-100 transform scale-100"
