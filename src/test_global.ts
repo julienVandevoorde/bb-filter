@@ -9,6 +9,7 @@ export class BbFilter extends LitElement {
     @state() selectedRadioFilter= '';
     @state() selectedTitle= 'Person';
     @state() activeFilters: Array<{title: string, condition: string, value: string}> = [];
+    @state() filterLinks: Array<string> = []; 
     @state() inputValue: string = '';
 
     
@@ -36,6 +37,10 @@ export class BbFilter extends LitElement {
     addFilter(event: Event) {
         event.preventDefault(); // Prevent form submission
         if (this.inputValue.trim() !== '') {
+            if (this.activeFilters.length > 0) {
+                // Ajouter 'or' par défaut quand un nouveau filtre est ajouté
+                this.filterLinks.push('or'); // ou 'and' selon votre logique
+            }
             this.activeFilters.push({
                 title: this.selectedTitle,
                 condition: this.selectedRadioFilter,
@@ -45,25 +50,41 @@ export class BbFilter extends LitElement {
             this.toggleFilter(); // Optionally close the dropdown
         }
     }
+    
 
     removeFilter(index: number) {
         this.activeFilters.splice(index, 1);
         this.requestUpdate(); // Trigger update to re-render the component
     }
+
+    //basculer entre 'or' et 'and' pour chaque filtre
+    toggleLink(index: number) {
+        this.filterLinks[index] = this.filterLinks[index] === 'or' ? 'and' : 'or';
+        this.requestUpdate(); // Pour mettre à jour le rendu
+    }
+    
     
 
     renderFilters() {
         return this.activeFilters.map((filter, index) => html`
-            <div class="bb-badge-filter mb-1 mr-0.5">
-                ${filter.title} <span>${filter.condition}</span> ${filter.value}
-                <div class="-mr-2 bb-badge-filter__remove cursor-pointer hover:scale-125 ml-2" @click="${() => this.removeFilter(index)}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
+            <div class="flex items-center mb-1 mr-0.5">
+                <div class="bb-badge-filter">
+                    ${filter.title} <span>${filter.condition}</span> ${filter.value}
+                    <div class="-mr-2 bb-badge-filter__remove cursor-pointer hover:scale-125 ml-2" @click="${() => this.removeFilter(index)}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
                 </div>
+                ${index < this.activeFilters.length - 1 ? html`
+                    <div class="inline-block relative cursor-pointer group px-2" @click="${() => this.toggleLink(index)}">
+                        <span class="border-gray-600 group-hover:text-blueviolet-600 text-gray-600">${this.filterLinks[index]}</span>
+                    </div>
+                ` : ''}
             </div>
         `);
     }
+    
 
     render () {
         return html`

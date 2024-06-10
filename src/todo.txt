@@ -1,0 +1,60 @@
+BB FILTER :
+
+
+--------------------------------------------------------------
+
+
+1. Récupérer la div et réussir à avoir le même rendu que sur Beebole
+
+
+--------------------------------------------------------------
+
+
+2. Rendre la div fonctionnelle (boutons, input etc) :
+
+    - clic bouton add filter
+
+    - affichage du menu déroulant
+
+    - adapter les titres (person, role)
+    - visuel séléction des titres (changer de couleur lorsque clic)
+
+    - changer les inputs du filtre (retirer is, is not, etc)
+    - mettre un input de type texte dynamique lorsque input radio -> check
+    
+    - supprimer la barre de filtre lorsque rien n'a été sélectionné
+    - rendre le bouton remove all fonctionnel
+    - 
+
+
+1. Page Person ou Role
+
+//TODO
+
+
+--------------------------------------------------------------
+
+
+2. Bouton Add filter
+
+    a. Afficher le menu complet lorsque l'utilisateur clique sur le bouton
+    b. Retirer la liste lorsqu'il reclique dessous/ lorsqu'il clique autre part/ lorsqu'il clique sur cancel
+
+
+--------------------------------------------------------------
+
+
+3. Menu déroulant 
+
+  A. Affichage
+
+    a. Dans la partie de gauche, remplacer les titres par 'Person' et 'Role' et changer la couleur lorsqu'on 
+       choisit l'un des deux [dynamique]
+    b. Dans la partie de droite, remplacer les filtres par ce qui est demandé (retirer 'is' et 'is not')
+    c. Dans la partie de droite, adapter l'input text en fonction de ce qui est coché [dynamique]
+    
+  B. Fonctionnalité //TODO
+
+    a. Rendre fonctionnel le bouton Add filter
+        -> lorsque l'utilisateur clique dessus, le menu disparaît
+        -> le filtre apparaît en haut (exemple : 'Person start with J')
