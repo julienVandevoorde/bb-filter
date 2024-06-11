@@ -1,16 +1,17 @@
 import { LitElement, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
+import { customElement, state } from 'lit/decorators.js'
 
 
 @customElement('bb-filter')
 export class BbFilter extends LitElement {
-    @state() openAddFilter= false;
-    @state() openDropdown= false;
-    @state() selectedRadioFilter= '';
-    @state() selectedTitle= 'Person';
-    @state() activeFilters: Array<{title: string, condition: string, value: string}> = [];
-    @state() filterLinks: Array<string> = []; 
-    @state() inputValue: string = '';
+
+    @state() openAddFilter: boolean= false; //affichage filtre général
+    @state() selectedTitle: string= 'Person'; //titre séléctionné (Person, Role)
+    @state() selectedRadioFilter= ''; //filtre radio séléctionné (startswith, endswith, contains, notcontains)
+    @state() activeFilters: Array<{title: string, condition: string, value: string}> = []; //tableau des filtres actifs
+    @state() inputValue: string = ''; //valeur de l'input du filtre
+    @state() openDropdown: boolean = false; //affichage filtre condition
+    @state() selectedDropdown: string = 'or'; //filtre condition séléctionné (or, and)
 
     
     createRenderRoot() {
@@ -37,10 +38,6 @@ export class BbFilter extends LitElement {
     addFilter(event: Event) {
         event.preventDefault(); // Prevent form submission
         if (this.inputValue.trim() !== '') {
-            if (this.activeFilters.length > 0) {
-                // Ajouter 'or' par défaut quand un nouveau filtre est ajouté
-                this.filterLinks.push('or'); // ou 'and' selon votre logique
-            }
             this.activeFilters.push({
                 title: this.selectedTitle,
                 condition: this.selectedRadioFilter,
@@ -50,47 +47,31 @@ export class BbFilter extends LitElement {
             this.toggleFilter(); // Optionally close the dropdown
         }
     }
-    
 
     removeFilter(index: number) {
         this.activeFilters.splice(index, 1);
         this.requestUpdate(); // Trigger update to re-render the component
     }
-
-    //basculer entre 'or' et 'and' pour chaque filtre
-    toggleLink(index: number) {
-        this.filterLinks[index] = this.filterLinks[index] === 'or' ? 'and' : 'or';
-        this.requestUpdate(); // Pour mettre à jour le rendu
-    }
-    
     
 
     renderFilters() {
         return this.activeFilters.map((filter, index) => html`
-            <div class="flex items-center mb-1 mr-0.5">
-                <div class="bb-badge-filter">
-                    ${filter.title} <span>${filter.condition}</span> ${filter.value}
-                    <div class="-mr-2 bb-badge-filter__remove cursor-pointer hover:scale-125 ml-2" @click="${() => this.removeFilter(index)}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </div>
+            <div class="bb-badge-filter mb-1 mr-0.5">
+                ${filter.title} <span>${filter.condition}</span> ${filter.value}
+                <div class="-mr-2 bb-badge-filter__remove cursor-pointer hover:scale-125 ml-2" @click="${() => this.removeFilter(index)}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </div>
-                ${index < this.activeFilters.length - 1 ? html`
-                    <div class="inline-block relative cursor-pointer group px-2" @click="${() => this.toggleLink(index)}">
-                        <span class="border-gray-600 group-hover:text-blueviolet-600 text-gray-600">${this.filterLinks[index]}</span>
-                    </div>
-                ` : ''}
             </div>
         `);
     }
-    
 
     render () {
         return html`
         <div class="flex flex-wrap items-center">
             <!--la div ci dessous contient ce qui est lié au bouton add filter-->
-            <div class="mb-1 order-1 relative" x-data="{ openAddFilter: false }">
+            <div class="mb-1 order-1 relative">
                 <button type="button" class="bb-btn-secondary" @click="${this.toggleFilter}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 mr-1.5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg> 
                     Add filter
@@ -140,21 +121,21 @@ export class BbFilter extends LitElement {
                                             <div class="flex h-5 items-center"><input id="endswith" aria-describedby="large-description" name="filter" type="radio" class="bb-radio" @click="${() => this.selectRadioFilter('endswith')}" /></div>
                                             <div class="ml-3 text-sm">
                                                 <label for="endswith" class="text-gray-700">ends with</label>
-                                                <div><input @input="${this.updateInput}" name="endswith" type="${this.selectedRadioFilter === 'endswith' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'startswith' ? this.inputValue : ''}" /></div>
+                                                <div><input @input="${this.updateInput}" name="endswith" type="${this.selectedRadioFilter === 'endswith' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'endswith' ? this.inputValue : ''}" /></div>
                                                 </div>
                                         </div>
                                         <div class="flex relative w-full">
                                             <div class="flex h-5 items-center"><input id="contains" aria-describedby="large-description" name="filter" type="radio" class="bb-radio" @click="${() => this.selectRadioFilter('contains')}" /></div>
                                             <div class="ml-3 text-sm">
                                                 <label for="contains" class="text-gray-700">contains</label>
-                                                <div><input @input="${this.updateInput}" name="contains" type="${this.selectedRadioFilter === 'contains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'startswith' ? this.inputValue : ''}" /></div>
+                                                <div><input @input="${this.updateInput}" name="contains" type="${this.selectedRadioFilter === 'contains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'contains' ? this.inputValue : ''}" /></div>
                                             </div>
                                         </div>
                                         <div class="flex relative w-full">
                                             <div class="flex h-5 items-center"><input id="notcontains" aria-describedby="large-description" name="filter" type="radio" class="bb-radio" @click="${() => this.selectRadioFilter('notcontains')}" /></div>
                                             <div class="ml-3 text-sm">
                                                 <label for="notcontains" class="text-gray-700">does not contain</label>
-                                                <div><input @input="${this.updateInput}" name="notcontains" type="${this.selectedRadioFilter === 'notcontains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'startswith' ? this.inputValue : ''}" /></div>
+                                                <div><input @input="${this.updateInput}" name="notcontains" type="${this.selectedRadioFilter === 'notcontains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'notcontains' ? this.inputValue : ''}" /></div>
                                                 </div>
                                         </div>
                                     </div>

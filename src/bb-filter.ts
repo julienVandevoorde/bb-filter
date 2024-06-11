@@ -1,15 +1,15 @@
 import { LitElement, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
+import { customElement, state } from 'lit/decorators.js'
 
 
 @customElement('bb-filter')
 export class BbFilter extends LitElement {
-    @state() openAddFilter= false;
-    @state() openDropdown= false;
-    @state() selectedRadioFilter= '';
-    @state() selectedTitle= 'Person';
-    @state() activeFilters: Array<{title: string, condition: string, value: string}> = [];
-    @state() inputValue: string = '';
+
+    @state() openAddFilter: boolean= false; //filtre général
+    @state() selectedTitle: string= 'Person'; //titre séléctionné (Person, Role)
+    @state() selectedRadioFilter= ''; //filtre radio séléctionné (startswith, endswith, contains, notcontains)
+    @state() activeFilters: Array<{title: string, condition: string, value: string}> = []; //tableau des filtres actifs
+    @state() inputValue: string = ''; //valeur de l'input du filtre
 
     
     createRenderRoot() {
@@ -69,7 +69,7 @@ export class BbFilter extends LitElement {
         return html`
         <div class="flex flex-wrap items-center">
             <!--la div ci dessous contient ce qui est lié au bouton add filter-->
-            <div class="mb-1 order-1 relative" x-data="{ openAddFilter: false }">
+            <div class="mb-1 order-1 relative">
                 <button type="button" class="bb-btn-secondary" @click="${this.toggleFilter}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 mr-1.5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg> 
                     Add filter
@@ -119,21 +119,21 @@ export class BbFilter extends LitElement {
                                             <div class="flex h-5 items-center"><input id="endswith" aria-describedby="large-description" name="filter" type="radio" class="bb-radio" @click="${() => this.selectRadioFilter('endswith')}" /></div>
                                             <div class="ml-3 text-sm">
                                                 <label for="endswith" class="text-gray-700">ends with</label>
-                                                <div><input @input="${this.updateInput}" name="endswith" type="${this.selectedRadioFilter === 'endswith' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'startswith' ? this.inputValue : ''}" /></div>
+                                                <div><input @input="${this.updateInput}" name="endswith" type="${this.selectedRadioFilter === 'endswith' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'endswith' ? this.inputValue : ''}" /></div>
                                                 </div>
                                         </div>
                                         <div class="flex relative w-full">
                                             <div class="flex h-5 items-center"><input id="contains" aria-describedby="large-description" name="filter" type="radio" class="bb-radio" @click="${() => this.selectRadioFilter('contains')}" /></div>
                                             <div class="ml-3 text-sm">
                                                 <label for="contains" class="text-gray-700">contains</label>
-                                                <div><input @input="${this.updateInput}" name="contains" type="${this.selectedRadioFilter === 'contains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'startswith' ? this.inputValue : ''}" /></div>
+                                                <div><input @input="${this.updateInput}" name="contains" type="${this.selectedRadioFilter === 'contains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'contains' ? this.inputValue : ''}" /></div>
                                             </div>
                                         </div>
                                         <div class="flex relative w-full">
                                             <div class="flex h-5 items-center"><input id="notcontains" aria-describedby="large-description" name="filter" type="radio" class="bb-radio" @click="${() => this.selectRadioFilter('notcontains')}" /></div>
                                             <div class="ml-3 text-sm">
                                                 <label for="notcontains" class="text-gray-700">does not contain</label>
-                                                <div><input @input="${this.updateInput}" name="notcontains" type="${this.selectedRadioFilter === 'notcontains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'startswith' ? this.inputValue : ''}" /></div>
+                                                <div><input @input="${this.updateInput}" name="notcontains" type="${this.selectedRadioFilter === 'notcontains' ? 'text' : 'hidden'}" class="bb-input" .value="${this.selectedRadioFilter === 'notcontains' ? this.inputValue : ''}" /></div>
                                                 </div>
                                         </div>
                                     </div>
@@ -153,6 +153,7 @@ export class BbFilter extends LitElement {
             <div class="divide-x-3 lg:ml-6 lg:order-2 order-3 text-sm">
                 ${this.renderFilters()}
             </div>
+            ${console.log(this.activeFilters)}
         </div>
     `
     }
